@@ -488,6 +488,28 @@ On the Aviatrix Controller:
   #. Port:	Listening port of logstash server (5000 by default)
   #. Optional Configuration File:	(Deprecated)
 
+Note: 
+Test under logstash ver 7.7, the parser fail due to fortmat change. It has to mutate logstash server configuration between input and output. The example below for reference 
+input {  
+    beats {
+        port => 5000
+    }
+}
+
+filter {
+  mutate {
+    rename => {
+      "[host][name]" => "[host]"
+    }
+  }
+}
+
+output {  
+    elasticsearch {
+        hosts => ["172.31.3.102:9200"]
+    }
+}
+
 
 3.3 Splunk Logging
 -------------------
